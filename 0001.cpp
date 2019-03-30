@@ -1,4 +1,4 @@
-﻿#include<stdio.h>
+#include<stdio.h>
 #include<math.h>
 #include<windows.h>
 #define MAXLENGTH 1000
@@ -154,7 +154,7 @@ void GetObjInfo(char string[MAXLENGTH],information &information,int *i){
 	char ball[80] = "ball";
 	char flag[80] = "flag";
 	information.ObjNum=0;
-	while(string[*i-1]!=')'){
+	while(string[*i-1]!=')'){//")"作为结束标志 避免输入不规范存在" "
 		//=====================================================================================================
 		if(check(string,player,i)){//球员对象  具有Distance Direction DistChng  DirChng BodyDir HeadDir 共6个特征
 			j=0;
@@ -174,9 +174,9 @@ void GetObjInfo(char string[MAXLENGTH],information &information,int *i){
 			information.ObjInfo[information.ObjNum].BodyDir = achive(string,i);
 			information.ObjInfo[information.ObjNum].HeadDir = achive(string,i);
 			information.ObjNum++;
-			if(string[*i] == ')') //使指向此结构")"之后的位置的下一个结构的开头"("或全部结束则是")"   
-				*i+=1;			  //作业中的示例并没有严格的数据格式 有的数字和")"之间有空格  有的没有
-		}
+			while(string[*i-1] != ')')    //achive结束后 默认指向下一个数字串的开头，题目给出的格式不规范 
+				*i+=1;			  //有的结束后到")"有" "有的没有。 i-1使其指向数字结束后第一个字符 循环到 )
+		}//
 		//========================================================================================================
 		if(check(string,goal,i)){//目标对象 具有Distance Direction 共两个特征
 			j=0;
@@ -192,7 +192,7 @@ void GetObjInfo(char string[MAXLENGTH],information &information,int *i){
 			information.ObjInfo[information.ObjNum].Distance = achive(string,i);
 			information.ObjInfo[information.ObjNum].Direction = achive(string,i);
 			information.ObjNum++;
-			if(string[*i] == ')') *i+=1;
+			while(string[*i-1] != ')') *i+=1;
 		}
 		//========================================================================================================
 		if(check(string,ball,i)){//球对象 具有Distance Direction DistChng DirChng 共四个特征
@@ -211,7 +211,7 @@ void GetObjInfo(char string[MAXLENGTH],information &information,int *i){
 			information.ObjInfo[information.ObjNum].DistChng = achive(string,i);
 			information.ObjInfo[information.ObjNum].DirChng = achive(string,i);
 			information.ObjNum++;
-			if(string[*i] == ')') *i+=1;
+			while(string[*i-1] != ')') *i+=1;
 		}
 	    //============================================================================================================	
 		if(check(string,flag,i)){//目标对象 具有Distance Direction 共两个特征
@@ -228,7 +228,7 @@ void GetObjInfo(char string[MAXLENGTH],information &information,int *i){
 			information.ObjInfo[information.ObjNum].Distance = achive(string,i);
 			information.ObjInfo[information.ObjNum].Direction = achive(string,i);
 			information.ObjNum++;
-			if(string[*i] == ')') *i+=1;
+			while(string[*i-1] != ')') *i+=1;
 		}
 		//============================================================================================================	
 	*i+=1;
